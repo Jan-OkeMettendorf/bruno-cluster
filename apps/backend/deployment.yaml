@@ -21,6 +21,9 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value:
+                  dev
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://bruno-db-rw.bruno.svc.cluster.local:5432/bruno
             - name: SPRING_DATASOURCE_USERNAME
