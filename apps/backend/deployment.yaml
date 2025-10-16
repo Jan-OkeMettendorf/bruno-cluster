@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: bruno-backend
-          image: ghcr.io/bruno/bruno-backend:latest
+          image: ghcr.io/itdepender/bruno-backend:latest
           ports:
             - containerPort: 8080
           env:
