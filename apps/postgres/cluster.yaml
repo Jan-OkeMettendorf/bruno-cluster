@@ -1,0 +1,25 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: bruno-db
+  namespace: bruno
+spec:
+  instances: 1
+  storage:
+    size: 2Gi
+  bootstrap:
+    initdb:
+      database: bruno
+      owner: user
+      secret:
+        name: bruno-db-secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bruno-db-secret
+  namespace: bruno
+type: kubernetes.io/basic-auth
+stringData:
+  username: user
+  password: user
