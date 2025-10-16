@@ -13,9 +13,11 @@ spec:
       labels:
         app: bruno-backend
     spec:
+      imagePullSecrets:
+        - name: regdockercred
       containers:
         - name: bruno-backend
-          image: ghcr.io/itdepender/bruno-backend:latest
+          image: docker.io/itdepender/bruno-backend:latest
           ports:
             - containerPort: 8080
           env:
