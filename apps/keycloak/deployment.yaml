@@ -14,27 +14,34 @@ spec:
         app: keycloak
     spec:
       containers:
-      - name: keycloak
-        image: quay.io/keycloak/keycloak:26.1.4
-        args: ["start-dev", "--import-realm"]
-        ports:
-        - containerPort: 9090
-        env:
-        - name: KEYCLOAK_ADMIN
-          value: admin
-        - name: KEYCLOAK_ADMIN_PASSWORD
-          value: admin
-        - name: KC_DB
-          value: postgres
-        - name: KC_DB_URL
-          value: jdbc:postgresql://bruno-db:5432/keycloak
-        - name: KC_DB_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: bruno-db.credentials.bruno_user
-              key: username
-        - name: KC_DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: bruno-db.credentials.bruno_user
-              key: password
+        - name: keycloak
+          image: bitnami/keycloak:25
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: admin
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-admin
+                  key: password
+            - name: KC_DB
+              value: postgres
+            - name: KC_DB_URL_HOST
+              value: bruno-db
+            - name: KC_DB_URL_DATABASE
+              value: keycloak
+            - name: KC_DB_USERNAME
+              value: keycloak
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-db
+                  key: password
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
